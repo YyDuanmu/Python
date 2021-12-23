@@ -11,6 +11,8 @@ You can use this to select specified date then following parts of dashboard will
 - Graphs in INDUSTRY tab.
 - Graph of COVID-19 Information at the bottom of the dashboard.
 
+Date range is from 02/20/2020 to 07/30/2021.
+
 ![image](https://github.com/YyDuanmu/python/blob/master/dashboard/image_dash/date_select.png)
 
 ## Company Tab
