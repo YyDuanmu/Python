@@ -39,5 +39,3 @@
 
 ![image](https://github.com/YyDuanmu/Python/blob/2d2f3e8babb39bb5fbec2f40d4f383552f6d24e3/suicide_depression_detection_nlp/image/Suicide_20.png)
 
-![image](https://github.com/YyDuanmu/Python/blob/2d2f3e8babb39bb5fbec2f40d4f383552f6d24e3/suicide_depression_detection_nlp/image/Suicide_21.png)
-
