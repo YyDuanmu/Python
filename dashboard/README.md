@@ -5,7 +5,7 @@
 ![image](https://github.com/YyDuanmu/python/blob/master/dashboard/image_dash/head.png)
 
 ## Interactive Button -- Date Selected
-You can use this to select specified date then following parts of dashboard will update SYNCHRONOUSLY.
+You can use this to select specified date then following parts of dashboard will update `SYNCHRONOUSLY`.
 - Time Period Selected. 
 - Total Cumulative Cases of COVID-19 in USA.
 - Graphs in INDUSTRY tab.
