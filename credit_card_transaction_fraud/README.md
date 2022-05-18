@@ -76,19 +76,61 @@ In the feature selection step, we utilize a univariate filter followed by a wrap
 distributed to make sure it does not come up as important when filtering. For each of the variables, we calculate a Kolmogorov-Smirnov (KS) score using pre-assigned fraud labels (goods and bads). After we finish calculating all the scores for each of the candidate variables, we sort them by
 descending order and choose the top 100 variables with the highest scores. This filter process helps us to get rid of highly correlated variables. For the wrapper, we choose to use forward selection and set the number of variables we wanted to keep in the end to be 30. We use the LightGBM model as our final model for the wrapper to wrap around the 100 candidate variables we get from the filtering process. We choose to keep the top 30 variables with highest average scores (0.722). This wrapper process helps us to further remove correlated variables and only leave the ones that are truly important and useful for our analysis.
 
+**`Logic/Steps of Final 6 Variables Selection`**
+1.	Run the forward selection for the wrapper and choose top 30 variables from 100 candidate variables
+2.	Split these 30 variables into two sets (One includes the Top 20 variables because their average score can reach 0.712 and the other includes the rest 10 variables.)
+3.	Run the model to compare the performance of these two sets of variables and find the set of 10 variables performs better with fewer variables.
+4.	Study on 10 variables selected above and remove duplicates such as *'cardnum_merchnum_country_total_14'* and *'cardnum_merchnum_max_14'*, only remain *'cardnum_merchnum_country_total_30'* and *'cardnum_merchnum_max_30'*
 
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168972046-21a90e88-f4fc-4f0d-90b0-fd9471324174.png">
+
+
+5.	Focus on *'cardnum_state_zip5_country_max_3'* because its importance in the model is not stable and check its importance in the models.
+6.	Replace *'cardnum_state_zip5_country_max_3'* by the variable *'cardnum_state_zip5_country_max_30'* which has the highest and most stable importance and in a similar form (*'cardnum_state_zip5_country_max_#'*). 
+ 
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168972056-5afffb4e-af2c-416e-8731-a296b5e00a6b.png">
+
+7.	Use Shapley Additive Explanations (SHAP) Algorithm to find relatively weaker variables and remove them (*'cardnum_merchnum_country_max_30'*, *'cardnum_merchnum_max_30'*).  
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168972387-cb3525ec-e7f1-4871-b40d-decda010f94f.png">
+
+- SHAP algorithm is an advanced explanation algorithm of boosting tree models. It can help us recognize relatively weaker variables with artificially high importance. From the above graph, we can see that, for the 2 variables highlighted in the red box, their scatters are nearly all blue no matter if the SHAP value is high or low. This means that how the low values of these variables impact the model output is unknown. However, the other variables have an obvious impact on the model output when their values change. Therefore, we removed these two variables and got our final 6 variables.
+
+**`Final Six Variables`**
+
+![image](https://user-images.githubusercontent.com/96048575/168972735-aa62411b-8305-46c7-9fee-ee2ce2abe71d.png)
 
 ## [Model Exploration](https://github.com/YyDuanmu/Python/blob/ee1a80d330bf7617f0fcb4adc4d9c56253c91425/credit_card_transaction_fraud/featureselection_model.ipynb)
 
 ![image](https://user-images.githubusercontent.com/96048575/168712216-79325c66-7548-4499-88a1-af45a326aeed.png)
 
+## Results
+
+**Note** that we filter out the last one months as the *`OOT`* data. The rest of the dataset is our train and test data (83,970 records). We then split this data into 70% train data and 30% test data randomly and run the CatBoost model.
+
+***Below is the summary table for the training dataset:***
+
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168972946-4db415e4-27a5-47a8-9e6b-7b70380614ee.png">
+
+***Below is the summary table for the test dataset:***
+
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168973124-0d6ec7f1-b6a7-4296-8317-db0f3bcfa09a.png">
+
+***Below is the summary table for the out-of-time (OOT) dataset:*** 
+
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168973158-674404f3-3aed-419b-a7f0-6b0c73ecce0e.png">
 
 
+- This is the summary table we made to show the performance of our model in our OOT datasets. We have in total 12,417 records in the OOT dataset. The table in pink is our Bin Statistics, we divided the records into 100 equal bins, so approximately each bins contain 1% of the OOT data. Here, we just show the top 20% since that is just basically what we care about. The table in green is our cumulative statistics. It contains all the statistics information up to and including that bin.
 
+- Moreover, in bin statistics table, % Goods is calculated by # Goods divided by # Records in that specific bin, % Bads is calculated by # Bads divided by # Records in that specific bin. In cumulative statistics table, Cumulative Goods is calculated by adding # Goods up to and including that bin, Cumulative Bads is calculated by adding # Bads up to and including that bin, % Goods is calculated by Cumulative goods divided by total number of goods, % Bads (FDR) is calculated by Cumulative Bads divided by the total number of bads. KS is calculated by % Bads - % Goods. FPR is the false-positive ratio which is calculated by Cumulative Goods divided by Cumulative Bads.
 
+***Below is the Fraud Savings Calculation and Suggests Score Cutoff plot:***
 
+<img width="580" alt="image" src="https://user-images.githubusercontent.com/96048575/168973687-88b0c8de-1a5a-47dc-ba16-252f76938a7e.png">
 
+- The graph above is a summary line plot that shows the amount of the fraud savings (blue), lost sales (yellow), and overall savings (green) for 1 percent increase in the number of credit card transactions declined in our OOT population. 
 
+- Based on the assumption that we gain $2000 for every fraud that’s caught, $50 loss for every good we labeled as bad (False Positive). We recommend a score cutoff at 3% population since it can decline 64.2% of the frauds. We will catch 115 frauds, and have $230,000 fraud savings, $12,900 lost sales, and result in $217,100 overall savings for the company while maintaining a good and satisfying experience for customers.
 
 
 
