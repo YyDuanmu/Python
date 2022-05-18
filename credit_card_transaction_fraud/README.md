@@ -23,7 +23,7 @@ The **`Credit Card Transactions`** Data is a dataset of actual credit card purch
 
 ## [Data Cleaning](https://github.com/YyDuanmu/Python/blob/eebb662c84cb339db50569feb2a9b5b8f960314f/credit_card_transaction_fraud/cleaning_engineering.ipynb)
 
-I first build the **`cleaning`** function to fill null values in several columns in the following step.
+I first built the **`cleaning`** function to fill null values in several columns in the following step.
 
 ```python
 def cleaning(df, i, j):
