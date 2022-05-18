@@ -10,7 +10,7 @@
 
 ## Natural language processing (NLP)
 
-1. [Suicide Detection](https://github.com/YyDuanmu/Python/tree/master/suicide_depression_detection_nlp)
+1. [Suicide Detection (Bert)](https://github.com/YyDuanmu/Python/tree/master/suicide_depression_detection_nlp)
 
 ## Visualization
 
