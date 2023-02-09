@@ -3,12 +3,12 @@
 
 1. [Repeat Buyer Prediction](https://github.com/YyDuanmu/Python/tree/master/repeat_buyers_prediction)
 
-## Fraud Detection
+## Fraud Analysis
 
 1. [Credit Card Transaction](https://github.com/YyDuanmu/Python/tree/master/credit_card_transaction_fraud)
 2. [Product Application](https://github.com/YyDuanmu/Python/tree/master/application_fraud)
 
-## Natural language processing (NLP)
+## Natural Language Processing (NLP)
 
 1. [Suicide Detection (Bert)](https://github.com/YyDuanmu/Python/tree/master/suicide_depression_detection_nlp)
 
